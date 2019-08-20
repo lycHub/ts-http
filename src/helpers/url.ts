@@ -16,7 +16,7 @@ export function buildUrl(url: string, params?: any): string {
       }else {
         values = [val];
       }
-      values.forEach(item => {
+      values.forEach((item: any) => {
         if (isDate(item)) {
           item = item.toISOString()
         }else if (isObject(item)) {

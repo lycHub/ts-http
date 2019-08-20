@@ -8,7 +8,7 @@ export function isObject(val: any): val is Object {
   return val !== null && typeof val === 'object';
 }
 
-export function isArray(val: any): val is Array {
+export function isArray(val: any): val is Array<any> {
   if (Array.isArray) {
     return Array.isArray(val);
   }else {

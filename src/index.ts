@@ -4,7 +4,7 @@ import {buildUrl} from "./helpers/url";
 
 export default function axios(config: AxiosRequestConfig) {
   processConfig(config);
-  xhr(config)
+  xhr(config);
 }
 
 
