@@ -1,7 +1,7 @@
-import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types/index'
-import { parseHeaders } from './helpers/header';
-import { transformResponse } from './helpers/data';
-import { createError } from './helpers/error';
+import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types/index'
+import { parseHeaders } from '../helpers/header';
+import { transformResponse } from '../helpers/data';
+import { createError } from '../helpers/error';
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
@@ -9,7 +9,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
     const request = new XMLHttpRequest();
     request.responseType = responseType;
     request.timeout = timeout;
-    request.open(method.toUpperCase(), url, true);
+    request.open(method.toUpperCase(), url!, true);
   
     Object.keys(headers).forEach(name => {
       if (!data && name.toLowerCase() === 'content-type') {
@@ -63,5 +63,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
 
 
 function handleResponse(response: AxiosResponse) {
-  return response.status >= 200 && response.status < 300;
+  console.log('response :', response);
+  const status = (response && response.status) || 200;
+  return status >= 200 && status < 300;
 }
