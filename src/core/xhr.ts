@@ -34,7 +34,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
             data: transformResponse(responseData),
             status: request.status,
             statusText: request.statusText,
-            Headers: responseHeaders,
+            headers: responseHeaders,
             config,
             request
           });
@@ -63,7 +63,6 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
 
 
 function handleResponse(response: AxiosResponse) {
-  console.log('response :', response);
   const status = (response && response.status) || 200;
   return status >= 200 && status < 300;
 }
