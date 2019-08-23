@@ -22,6 +22,19 @@ export interface AxiosRequestConfig {
   headers?: any
   responseType?: XMLHttpRequestResponseType
   timeout?: number
+  transformRequest: AxiosTransformer | AxiosTransformer[]
+  transformResponse: AxiosTransformer | AxiosTransformer[]
+  cancelToken?: CancelToken
+  withCredentials?: boolean
+  xsrfCookieName?: string
+  xsrfHeaderName?: string
+  onUploadProgress?: (e: ProgressEvent) => void
+  onDownloadProgress?: (e: ProgressEvent) => void
+  auth?: AxiosBasicCredentials
+  validateStatus?: ValidStatus
+  paramsSerializer?: (params: any) => string
+  baseUrl?: string
+  [key: string]: any
 }
 
 export interface AxiosResponse<T = any> {
@@ -47,6 +60,7 @@ export interface AxiosError extends Error {
 
 
 export interface Axios {
+  defaults: AxiosRequestConfig
   interceptors: {
     request: AxiosInterceptorManager<AxiosRequestConfig>
     response: AxiosInterceptorManager<AxiosResponse>
@@ -68,6 +82,15 @@ export interface AxiosInstance extends Axios {
 }
 
 
+export interface AxiosStatic extends AxiosInstance {
+  create(config?: AxiosRequestConfig): AxiosInstance
+  cancelToken: CancelTokenStatic
+  cancel: CancelStatic
+  isCancel(val: any): void
+}
+
+
+
 export interface AxiosInterceptorManager<T> {
   use(resolved: ResovedFn<T>, rejected?: RejectedFn): number
   eject(id: number): void
@@ -79,4 +102,54 @@ export interface ResovedFn<T> {
 }
 export interface RejectedFn {
   (error: any): any
+}
+
+
+export interface AxiosTransformer {
+  (data: any, headers?: any): any
+}
+
+
+export interface CancelToken {
+  promise: Promise<Cancel>
+  reason?: Cancel
+  throwIfRequested(): void
+}
+
+export interface Canceler {
+  (message?: string): void
+}
+
+
+export interface CancelExecutor {
+  (cancel: Canceler): void
+}
+
+export interface CancelTokenSource {
+  token: CancelToken
+  cancel: Canceler
+}
+
+
+export interface CancelTokenStatic {
+  new(executor: CancelExecutor): CancelToken
+  source(): CancelTokenSource
+}
+
+export interface Cancel {
+  message?: string
+}
+
+
+export interface CancelStatic {
+  new(message?: string): Cancel
+}
+
+export interface AxiosBasicCredentials {
+  username: string
+  password: string
+}
+
+export interface ValidStatus {
+  (status: number): boolean
 }

@@ -1,4 +1,5 @@
-import { isPlainObject } from "./utils";
+import { isPlainObject, deepMerge } from "./utils";
+import { Method } from "../types";
 
 export function processHeaders(headers: any, data: any): any {
   // 保证headers的key值命名统一
@@ -44,4 +45,16 @@ function normalizeHeaderName (headers: any, normalizedName: string): void {
       }
     });
   }
+}
+
+
+export function flattenHeaders(headers: any, method: Method): any {
+  if (headers) {
+    const methodsToDelete = ['delete', 'get', 'post', 'head', 'options', 'put', 'patch', 'common'];
+    headers = deepMerge(headers.common, headers[method]);
+    methodsToDelete.forEach(method => {
+      delete headers[method];
+    })
+  }
+  return headers;
 }

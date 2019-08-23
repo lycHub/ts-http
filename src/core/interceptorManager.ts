@@ -19,6 +19,7 @@ export default class InterceptorManager<T> {
   eject(id: number) {
     // 如果删除，那么length就会乱，id也乱了
     // this.interceptors.splice(id, 1);
+    
     if (this.interceptors[id]) {
       this.interceptors[id] = null;
     }
